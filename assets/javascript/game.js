@@ -1,23 +1,24 @@
-
+var wins=0;
+var losses=0;
 // 1. SELECT THE WORD TO BE GUESSED ("WORD")
 function restart() {
+	//select word
 	var wordbank=["masses", "differences"];
 	var numberOfWords=wordbank.length;
 	var pick=Math.floor(Math.random()*numberOfWords);
 	var word=wordbank[pick];
+	//input and count
 	var userGuess;
 	var count=0;
-	var already=[];
-	var left=0
-
+	
 	// variables for display2
-	var display2=document.getElementById ("display2");
-	var lettersLeft=word.split(""); // split word into array 
-	var lettersTried = [];
-	var attempts=0;
-	var rightGuess=0;
-	var rightLetters=[];
-	var display3=document.querySelector("#display3");	
+	var display1=document.querySelector("#display1")
+	var display2=document.querySelector("#display2");
+	var display3=document.querySelector("#display3")
+
+	//required data
+	var guessesLeft = (word.length)*2;
+	var already= [];
 	
 	// 2. CREATES THE INITIAL WORD DISPLAY
 
@@ -31,68 +32,68 @@ function restart() {
 		var text2=document.createTextNode("   -   ");
 		p2.appendChild(text2);
 
-		var position=document.getElementById("display"); 
-		position.appendChild(p); 
-		position.appendChild(p2);
+		display1.appendChild(p); 
+		display1.appendChild(p2);
 		}  //CLOSES DISPLAY LOOP
 		
 // REMOVE THE EXTRA DASH
 		var displayLength=(word.length*2)-1;
 		var remove=document.getElementsByTagName("p")[displayLength];
-		position.removeChild(remove);
+		display1.removeChild(remove);
 
-
+		display3.textContent="Select any key to start";
 //INPUT 
 
 	document.onkeyup = function(event) {
+		display3.textContent=" ";
 		userGuess = event.key;	
+
 		var a=already.indexOf(userGuess); 
-		if (a<0){	
-		already.push(userGuess);
+		
+		// below, rejects repeated entries and nonalphabetical except bacspace, enter, shift
+		if ((a<0 && (userGuess.match(/^[a-zA-Z]+$/)))){	
+			already.push(userGuess);
+			guessesLeft--;
+		//below, display data
+			display2.innerHTML="Letters Guessed: " + already + "</br>"+ "Wins: " + wins + "</br>" + "Losses: " + losses + "</br>" + "Guesses Left: " + guessesLeft;
 
-//this prevents repeat letters
-// for (var i=0; i<already.length; i++){
-// if (userGuess !== already[i]  && userGuess!== word[i])
-	// { 
-		// display 
-    for (var i=0; i<word.length; i++){
-    	if (userGuess===word[i]) {
-    		//our display string is twice length of word
-    			var j=i*2;  
-    			count++;
-    		// display the right guess
-				var showLetter=document.getElementsByTagName("p")[j]; 
-				showLetter.innerHTML=word[i]; 
-			}//if display
-		} //for display
+		//and display new letter
+    		for (var i=0; i<word.length; i++){
+    			if (userGuess===word[i]) {
+    				//our display string is twice length of word
+    				var j=i*2;  
+    				count++;
+    				// display the right guess
+					var showLetter=document.getElementsByTagName("p")[j]; 
+					showLetter.innerHTML=word[i]; 
+				}//if display
+			} //for display
 
-	 for (var i=0; i<lettersLeft.length; i++){
-	 	if (userGuess===lettersLeft[i]) {
-	 		lettersLeft.splice(i, 1);
-	 		
-	 	} //if 
-	 }//for 	
-				
-			 
-	// 7. ARE WE DONE? 	
-	if (count === word.length)	{
-		display3.textContent="You win! Play again? (Y or N)";
-			
-			document.onkeyup = function(event){
+function goodbye(){
+		document.onkeyup = function(event){
 			var playAgain = event.key;
 				if (playAgain === "y") {
-					document.querySelector("#display").innerHTML = " ";
-					document.querySelector("#display2").innerHTML = " ";
+					display1.innerHTML = " ";
+					display2.innerHTML = " ";
 					display3.innerHTML = " ";
 					restart();
 					}
-
 				else {document.querySelector("#display3").innerHTML="Thanks for playing";
 				} //else
 			} // document.onkeyup 
-		} // if count 
+		} // goodbye
+	  		 
+	// ARE WE DONE? 	
+		if (count === word.length)	{
+			display3.textContent="You win! Play again? (Y or N)";
+			wins++;
+			goodbye();}
+		
+		if (guessesLeft<=0)
+			{losses++;
+			display3.textContent="Out of Guesses!  Play Again (y/n)?";
+			goodbye();}	 			 		
 } //first if	 
-
 } // event
- }//restart
+}//restart
 restart();

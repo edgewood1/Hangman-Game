@@ -6,27 +6,34 @@ function restart() {
 
 	//select word
 	var theme;
-	var wordbank;
+	var wordbank=[];
+	var hint=[];
+	var theme; 
 	var wordbank1=["anchovies", "salads", "bacon", "beans", "oranges", "breadfruit", "brownies", "cream", "caviar"];
 	var hintbank1=["..of the sea", "..greens", ".. a meat", ".. a veggie", ".. a fruit", ".. a baked good", ".. a baked good", ".. a dairy", ".. a delicacy"];
 	var wordbank2=['europe', 'spain', 'bulgaria', 'burundi', 'chile', 'china', 'congo', 'afghanisan', 'herzegovina'];
-	var hintbank2=['.. a region', ".. water on some sides", "..eastern europe", "..east africa", "..south america", "..africa", ".asia", "..eastern europe"]
+	var hintbank2=['.. a region', ".. water on some sides", "..eastern europe", "..east africa", "..south america", "asia", "..africa", ".asia", "..eastern europe"]
 	var display1=document.querySelector("#display1");
 	var display2=document.querySelector("#display2");
 	var display3=document.querySelector("#display3");
 	display2.innerHTML=" Pick a theme: " + "</br> </br>" 
-	display3.innerHTML= "1.Food " +" </br> </br>" + "2.Geography" + "</br> </br>";
+	display3.innerHTML= " <p id='o'>" + " 1.Food " + " </p>" +" </br> </br>" + "<p id='p'>" + "2.Geography" + "</p>" + "<br> </br>";
 	
-	document.onkeyup = function(event) {
-		theme = event.key;	
-		display2.innerHTML="  ";
+	// document.getElementById("o").addEventListener("click", function(){wordbank=wordbank1; hint=hintbank1; theme="Food"; display2.innerHTML="  "; display3.innerHTML="  "; return wordbank; return hint; return theme;} )
 
+	// document.getElementById("p").addEventListener("click", function(){wordbank=wordbank2; hint=hintbank2; theme="Food"; display2.innerHTML="  "; display3.innerHTML="  ";} )
+
+	document.onkeyup = function(event) {  //primary event
+		theme = event.key;	
+		
+		if (theme.match(/^[1-2]+$/)){restart();} //if
+		
+		
 		// below, rejects repeated entries and nonalphabetical except bacspace, enter, shift
 		if (theme === "1") 
 			{var wordbank=wordbank1;
 				var hint=hintbank1;
 				var theme="Food";
-
 				}
 		else if (theme === "2")
 			{var wordbank=wordbank2;
@@ -71,11 +78,11 @@ function restart() {
 		display1.removeChild(remove);
 
 		// display3.textContent="Select any letter to start";
-			display3.innerHTML="Theme: " + theme + "</br>" + "Hint: " + hint + "</br>" + "Letters Guessed: " + already + "</br>"+ "Wins: " + wins + "</br>" + "Losses: " + losses + "</br>" + "Guesses Left: " + guessesLeft;
+			display3.innerHTML="Theme: " + theme + "</br>" + "Hint: " + hint + "</br>" + "Letters Guessed: " + already + "</br>"+ "Wins: " + wins + "  Losses: " + losses + "</br>" + "Guesses Left: " + guessesLeft;
 			display2.innerHTML="~~ Select a Letter ~~"
 //INPUT 
 
-	document.onkeyup = function(event) {
+	document.onkeyup = function(event) { //secondary event
 		
 		userGuess = event.key;	
 
@@ -86,8 +93,8 @@ function restart() {
 			already.push(userGuess);
 			guessesLeft--;
 		// //below, display data
-		display3.innerHTML="Theme: " + theme + "</br>" + "Hint: " + hint + "</br>" + "Letters Guessed: " + already + "</br>"+ "Wins: " + wins + "</br>" + "Losses: " + losses + "</br>" + "Guesses Left: " + guessesLeft;
-			display2.innerHTML="~~ Select a Letter ~~"
+		display3.innerHTML="Theme: " + theme + "</br>" + "Hint: " + hint + "</br>" + "Letters Guessed: " + already + "</br>"+ "Wins: " + wins + "  Losses: " + losses + "</br>" + "Guesses Left: " + guessesLeft;
+			display2.innerHTML="~~ Select a Letter ~~";
 
 		//and display new letter
     		for (var i=0; i<word.length; i++){
@@ -100,6 +107,9 @@ function restart() {
 					showLetter.innerHTML=word[i]; 
 				}//if display
 			} //for display
+} //if match 
+
+
 
 function goodbye(){
 		document.onkeyup = function(event){
@@ -121,12 +131,16 @@ function goodbye(){
 			wins++;
 			goodbye();}
 		
-		if (guessesLeft<=0)
-			{losses++;
+		if (guessesLeft<=0) {
+			losses++;
 			display3.textContent="Out of Guesses!  Play Again (y/n)?";
 			goodbye();}	 			 		
-} //first if	 
-} // event
+ //first if	 
+ 
+} //secondary event
+ //event
+// } //primary event
+} //primary event
+//restart
 }
-}//restart
 restart();

@@ -2,23 +2,51 @@ var wins=0;
 var losses=0;
 // 1. SELECT THE WORD TO BE GUESSED ("WORD")
 function restart() {
+
+
 	//select word
-	var wordbank=["masses", "differences"];
+	var theme;
+	var wordbank;
+	var wordbank1=["anchovies", "salads", "bacon", "beans", "oranges", "breadfruit", "brownies", "cream", "caviar"];
+	var hintbank1=["..of the sea", "..greens", ".. a meat", ".. a veggie", ".. a fruit", ".. a baked good", ".. a baked good", ".. a dairy", ".. a delicacy"];
+	var wordbank2=['europe', 'spain', 'bulgaria', 'burundi', 'chile', 'china', 'congo', 'afghanisan', 'herzegovina'];
+	var hintbank2=['.. a region', ".. water on some sides", "..eastern europe", "..east africa", "..south america", "..africa", ".asia", "..eastern europe"]
+	var display1=document.querySelector("#display1");
+	var display2=document.querySelector("#display2");
+	var display3=document.querySelector("#display3");
+	display2.innerHTML=" Pick a theme: " + "</br>" + "1. Food " +"</br> " + "2. Geography";
+	
+	document.onkeyup = function(event) {
+		theme = event.key;	
+		display2.innerHTML="  ";
+
+		// below, rejects repeated entries and nonalphabetical except bacspace, enter, shift
+		if (theme === "1") 
+			{var wordbank=wordbank1;
+				var hint=hintbank1;
+				var theme="Food";
+
+				}
+		else if (theme === "2")
+			{var wordbank=wordbank2;
+				var hint=hintbank2;
+				var theme="Geography";
+			}
+	
+	
 	var numberOfWords=wordbank.length;
 	var pick=Math.floor(Math.random()*numberOfWords);
 	var word=wordbank[pick];
+	var hint=hint[pick];
 	//input and count
 	var userGuess;
 	var count=0;
 	
-	// variables for display2
-	var display1=document.querySelector("#display1")
-	var display2=document.querySelector("#display2");
-	var display3=document.querySelector("#display3")
-
 	//required data
 	var guessesLeft = (word.length)*2;
 	var already= [];
+
+
 	
 	// 2. CREATES THE INITIAL WORD DISPLAY
 
@@ -41,11 +69,13 @@ function restart() {
 		var remove=document.getElementsByTagName("p")[displayLength];
 		display1.removeChild(remove);
 
-		display3.textContent="Select any key to start";
+		// display3.textContent="Select any letter to start";
+			display3.innerHTML="Theme: " + theme + "</br>" + "Hint: " + hint + "</br>" + "Letters Guessed: " + already + "</br>"+ "Wins: " + wins + "</br>" + "Losses: " + losses + "</br>" + "Guesses Left: " + guessesLeft;
+			display2.innerHTML="~~ Select a Letter ~~"
 //INPUT 
 
 	document.onkeyup = function(event) {
-		display3.textContent=" ";
+		
 		userGuess = event.key;	
 
 		var a=already.indexOf(userGuess); 
@@ -54,8 +84,9 @@ function restart() {
 		if ((a<0 && (userGuess.match(/^[a-zA-Z]+$/)))){	
 			already.push(userGuess);
 			guessesLeft--;
-		//below, display data
-			display2.innerHTML="Letters Guessed: " + already + "</br>"+ "Wins: " + wins + "</br>" + "Losses: " + losses + "</br>" + "Guesses Left: " + guessesLeft;
+		// //below, display data
+		display3.innerHTML="Theme: " + theme + "</br>" + "Hint: " + hint + "</br>" + "Letters Guessed: " + already + "</br>"+ "Wins: " + wins + "</br>" + "Losses: " + losses + "</br>" + "Guesses Left: " + guessesLeft;
+			display2.innerHTML="~~ Select a Letter ~~"
 
 		//and display new letter
     		for (var i=0; i<word.length; i++){
@@ -95,5 +126,6 @@ function goodbye(){
 			goodbye();}	 			 		
 } //first if	 
 } // event
+}
 }//restart
 restart();

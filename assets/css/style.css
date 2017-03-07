@@ -1,3 +1,28 @@
-h1 {text-align:center; font-size: 300%; font-family: garamond;}
+body { 
+  /*margin:0px; */
+  background: url(../images/parchment.jpg) no-repeat center center fixed;
+  background-size: cover;
+  height:100%;
+  /*height:100%; */
+}
+
+#display, #display1, #display2, #display3 {margin-top: 5%;}
+
+@font-face {
+  font-family: 'Old printing press_FREE-version';
+  src: url('oldfont.ttf');
+}
+
+/*@font-face {
+  font-family: 'Subway Novella';
+  src: url('subway.ttf');
+}*/
+
+
+h1 {
+	text-align:center; 
+	font-size: 400%; 
+	font-family: 'Old printing press_FREE-version', cursive;
+}
 p {display: inline-block;}
 

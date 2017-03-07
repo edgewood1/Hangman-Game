@@ -14,8 +14,8 @@ function restart() {
 	var display1=document.querySelector("#display1");
 	var display2=document.querySelector("#display2");
 	var display3=document.querySelector("#display3");
-	display2.innerHTML=" Pick a theme: " + "</br>" 
-	display3.innerHTML= "1.Food " +"</br> " + "2.Geography";
+	display2.innerHTML=" Pick a theme: " + "</br> </br>" 
+	display3.innerHTML= "1.Food " +" </br> </br>" + "2.Geography" + "</br> </br>";
 	
 	document.onkeyup = function(event) {
 		theme = event.key;	
